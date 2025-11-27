@@ -4,6 +4,7 @@ import br.com.raoni.RunasDeMidgard.Enum.Rarity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -28,8 +29,8 @@ public class Loot {
     @Size(min = 1, max = 100)
     private String name;
 
-    @DecimalMin("1")
-    private BigDecimal damage;
+    @Min(1)
+    private Long damage;
 
     @DecimalMin("0")
     private BigDecimal price;
@@ -46,7 +47,7 @@ public class Loot {
     private List<EnemyLoot> enemyDrops = new ArrayList<>();
 
 
-    public Loot(String name, BigDecimal damage, BigDecimal price, Rarity rarity, String description) {
+    public Loot(String name, Long damage, BigDecimal price, Rarity rarity, String description) {
         this.name = name;
         this.damage = damage;
         this.price = price;

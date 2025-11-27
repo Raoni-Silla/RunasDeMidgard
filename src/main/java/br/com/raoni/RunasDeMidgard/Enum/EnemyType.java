@@ -6,10 +6,10 @@ import lombok.Getter;
 public enum EnemyType {
 
     // Common enemies
-    GOBLIN("Goblin", RankEnemy.NORMAL),
-    SKELETON("Skeleton", RankEnemy.NORMAL),
+    GOBLIN("Goblin", RankEnemy.NORMAL), //f
+    SKELETON("Skeleton", RankEnemy.NORMAL), //f
     WOLF("Wolf", RankEnemy.NORMAL),
-    BANDIT("Bandit", RankEnemy.NORMAL),
+    BANDIT("Bandit", RankEnemy.NORMAL), //f
     ORC("Orc", RankEnemy.NORMAL),
     SLIME("Slime", RankEnemy.NORMAL),
     BAT("Bat", RankEnemy.NORMAL),

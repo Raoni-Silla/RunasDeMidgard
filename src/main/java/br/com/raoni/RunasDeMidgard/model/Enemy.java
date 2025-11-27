@@ -58,5 +58,4 @@ public class Enemy {
         this.name = name;
         this.description = description;
     }
-
 }

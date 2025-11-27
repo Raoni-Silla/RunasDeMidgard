@@ -67,7 +67,7 @@ public class AvatarService {
         Avatar FindAvatar = findAvatarByName(avatar.getName()).getBody();
 
 
-
+        return null;
 
     }
 
