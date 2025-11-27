@@ -1,10 +1,12 @@
 package br.com.raoni.RunasDeMidgard.Repository;
 
+import br.com.raoni.RunasDeMidgard.Enum.EnemyType;
 import br.com.raoni.RunasDeMidgard.model.Enemy;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EnemyRepository extends JpaRepository<Enemy,Long> {
@@ -20,4 +22,5 @@ public interface EnemyRepository extends JpaRepository<Enemy,Long> {
     // Métodos delete precisam de @Transactional no Service que chamar
     void deleteByHpLessThan(Long hp);
 
+    List<Enemy> findByType(EnemyType  type);
 }

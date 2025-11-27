@@ -1,6 +1,7 @@
 package br.com.raoni.RunasDeMidgard.Factory;
 
 import br.com.raoni.RunasDeMidgard.Enum.EnemyType;
+import br.com.raoni.RunasDeMidgard.Enum.RankEnemy;
 import br.com.raoni.RunasDeMidgard.Enum.Rarity;
 import br.com.raoni.RunasDeMidgard.Repository.EnemyRepository;
 import br.com.raoni.RunasDeMidgard.Repository.LootRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Random;
 
 @Component
 public class MonsterFactory {
@@ -360,6 +362,21 @@ public class MonsterFactory {
 
 
     }
+
+        public Enemy randomEnemyByType() {
+
+        EnemyType [] typesEnemiesArray = EnemyType.values(); //pega os tipos do enum
+
+        int size  = typesEnemiesArray.length;//pega o tamanho do array
+
+        Random random = new Random(); //instancia um objeto random
+
+        int randomIndex = random.nextInt(size); //pega um indice aleatorio
+
+        return create(typesEnemiesArray[randomIndex]); //cria um inimigo aleatorio
+
+    }
+
 
 }
 
