@@ -101,4 +101,4 @@ O Core do sistema gira em torno destas entidades principais:
 
 ## 👨‍💻 Autor
 
-Desenvolvido por **Raoni Mendes Silla** como parte de estudos avançados em Engenharia de Software e Back-End Java.
+Desenvolvido por **Raoni Mendes Silla** como parte de estudos avançados em Back-End Java.
