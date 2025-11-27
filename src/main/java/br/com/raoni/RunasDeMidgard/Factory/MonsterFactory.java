@@ -21,7 +21,7 @@ public class MonsterFactory {
     private EnemyRepository enemyRepo;
 
     //pega o tipo do inimigo e retorna o inimigo inteiro montado
-    public Enemy criar (EnemyType type){
+    public Enemy create (EnemyType type){
 
         switch (type) {
 
@@ -240,6 +240,118 @@ public class MonsterFactory {
 
                 return undead;
 
+            case GHOST:
+                Enemy ghost = new Enemy("Ghost of Chaos", "a spectral entity that haunts and terrifies its victims");
+
+                // mais rápido e inteligente, mas frágil fisicamente
+                ghost.setStatistics(new Statistics(
+                        3L, 10L, 8L, 2L   // STR, DEX, INT, VIT
+                ));
+
+                // Skills únicas do ghost
+                ghost.setSkills(List.of(
+                        new Skill("haunting wail", "A terrifying scream that can paralyze enemies"),
+                        new Skill("ethereal touch", "Deals damage that ignores physical armor"),
+                        new Skill("phase shift", "Becomes intangible, evading the next attack")
+                ));
+
+                // Loot do ghost
+                Loot lootGhost = new Loot(
+                        "phantom essence",
+                        1L,
+                        BigDecimal.valueOf(15.0),
+                        Rarity.EPIC,
+                        "A fragment of ghostly energy, valuable for magic crafting"
+                );
+
+                ghost.setLootDrops(List.of(
+                        new EnemyLoot(ghost, lootGhost, BigDecimal.valueOf(0.30)) // 30% chance de drop
+                ));
+
+                return ghost;
+
+            case DRAGON:
+                Enemy dragon = new Enemy("Dragon Blood", "a massive dragon with scales as hard as steel");
+
+                dragon.setStatistics(new Statistics(
+                        15L, 5L, 10L, 20L  // STR, DEX, INT, VIT
+                ));
+
+                dragon.setSkills(List.of(
+                        new Skill("fire breath", "Unleashes a devastating stream of fire"),
+                        new Skill("tail sweep", "Sweeps the area with its massive tail"),
+                        new Skill("wing gust", "Knocks back enemies with powerful wing gusts")
+                ));
+
+                Loot lootDragon = new Loot(
+                        "dragon scale",
+                        5L,
+                        BigDecimal.valueOf(100.0),
+                        Rarity.LEGENDARY,
+                        "Scales of a dragon, extremely valuable for armor crafting"
+                );
+
+                dragon.setLootDrops(List.of(
+                        new EnemyLoot(dragon, lootDragon, BigDecimal.valueOf(0.20)) // 20% chance
+                ));
+
+                return dragon;
+
+
+            case DEMONKING:
+                Enemy demonKing = new Enemy("Demon King", "the ruler of a demonic army, radiating dark energy");
+
+                demonKing.setStatistics(new Statistics(
+                        18L, 6L, 12L, 18L
+                ));
+
+                demonKing.setSkills(List.of(
+                        new Skill("dark strike", "A strike infused with dark magic"),
+                        new Skill("summon minions", "Calls lesser demons to fight alongside"),
+                        new Skill("hellfire aura", "Deals continuous fire damage to nearby enemies")
+                ));
+
+                Loot lootDemonKing = new Loot(
+                        "demonic core",
+                        1L,
+                        BigDecimal.valueOf(200.0),
+                        Rarity.LEGENDARY,
+                        "A powerful core of demonic energy, used in ultimate spells"
+                );
+
+                demonKing.setLootDrops(List.of(
+                        new EnemyLoot(demonKing, lootDemonKing, BigDecimal.valueOf(0.25))
+                ));
+
+                return demonKing;
+
+
+            case VAMPIRELORD:
+                Enemy vampireLord = new Enemy("Vampire Lord of Chaos", "an ancient vampire with immense power");
+
+                vampireLord.setStatistics(new Statistics(
+                        12L, 10L, 15L, 12L
+                ));
+
+                vampireLord.setSkills(List.of(
+                        new Skill("blood drain", "Drains life from enemies to heal itself"),
+                        new Skill("shadow step", "Teleports behind the target, striking unexpectedly"),
+                        new Skill("mesmerize", "Charms enemies, making them fight for it temporarily")
+                ));
+
+                Loot lootVampireLord = new Loot(
+                        "vampire fang",
+                        3L,
+                        BigDecimal.valueOf(150.0),
+                        Rarity.LEGENDARY,
+                        "A fang from the Vampire Lord, useful for crafting rare artifacts"
+                );
+
+                vampireLord.setLootDrops(List.of(
+                        new EnemyLoot(vampireLord, lootVampireLord, BigDecimal.valueOf(0.30))
+                ));
+
+                return vampireLord;
 
             default:
                 throw new IllegalArgumentException("Unknown enemy type: " + type);

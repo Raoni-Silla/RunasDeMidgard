@@ -44,7 +44,7 @@ public class Enemy {
     )
     private List <Skill> skills = new ArrayList<>();
 
-    @OneToMany(mappedBy = "enemy")
+    @OneToMany(mappedBy = "enemy", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<EnemyLoot> lootDrops = new ArrayList<>();
 

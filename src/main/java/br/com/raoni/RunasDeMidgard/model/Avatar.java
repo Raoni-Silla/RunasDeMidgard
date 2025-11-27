@@ -49,6 +49,8 @@ public class Avatar {
     @JoinColumn (name = "statistics_id")
     private Statistics statistics;
 
+    @OneToMany(mappedBy = "avatar", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Inventory> inventory = new ArrayList<>();
 
     public Avatar(String name, RpgClass heroClass, Account account) {
 
@@ -69,6 +71,16 @@ public class Avatar {
     public void removeTask(Task task) {
         this.tasks.remove(task);
         task.getAvatars().remove(this);
+    }
+
+    public void addItem(Inventory item) {
+        this.inventory.add(item);
+        item.setAvatar(this); // Garante o vínculo
+    }
+
+    public void removeItem(Inventory item) {
+        this.inventory.remove(item);
+        item.setAvatar(null);
     }
 
 }
