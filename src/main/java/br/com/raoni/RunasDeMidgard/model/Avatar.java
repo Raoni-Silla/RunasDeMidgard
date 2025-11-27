@@ -29,6 +29,9 @@ public class Avatar {
     @Min(0)
     private Long level;
 
+    @Min(0)
+    private Long xp;
+
     @DecimalMin("0")//melhor pra validar numeros do tipo big decimal
     private BigDecimal gold;
 

@@ -1,12 +1,13 @@
 package br.com.raoni.RunasDeMidgard.Service;
 
 import br.com.raoni.RunasDeMidgard.Repository.AvatarRepository;
+import br.com.raoni.RunasDeMidgard.Repository.TaskRepository;
 import br.com.raoni.RunasDeMidgard.model.Avatar;
+import br.com.raoni.RunasDeMidgard.model.Task;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Comparator;
 import java.util.LinkedHashSet;
@@ -19,6 +20,9 @@ public class AvatarService {
 
     @Autowired
     private AvatarRepository avatarRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     @Transactional//pra cancelar a transição caso de errado
     public ResponseEntity<Avatar> saveAvatar(Avatar avatar) {
@@ -61,14 +65,64 @@ public class AvatarService {
     }
 
 
-    //parei na logica de xp, e no monsterFactory!!!!
-    public ResponseEntity<Avatar> earnXp(Avatar avatar) {
 
-        Avatar FindAvatar = findAvatarByName(avatar.getName()).getBody();
+    private Long xpForNextLevel(Long level) {
+        return 2L * (level * level); // XP necessária para subir do nível atual para o próximo
+        // se o level for 4, 4*4 = 16, 2 * 16 = 32 exp pro proximo nivel
+    }
 
 
-        return null;
+    public ResponseEntity<Avatar> updateLevel(Avatar avatar, Long xpEarned) {
+
+        avatar.setXp(avatar.getXp() + xpEarned);
+
+        while (avatar.getXp() >= xpForNextLevel(avatar.getLevel())) { // pega o xp atual, vamos supor, 50, enquanto 50 for maior que 30
+
+
+            avatar.setXp(avatar.getXp() - xpForNextLevel(avatar.getLevel())); //50 - 30 = 20
+
+            avatar.setLevel(avatar.getLevel() + 1); // 4++ = 5
+
+            avatar.getStatistics().setHealth(avatar.getLevel() * 100);
+
+        }
+
+        avatarRepository.save(avatar);
+
+        return ResponseEntity.ok(avatar);
 
     }
+
+    public ResponseEntity<Void> deleteAvatar(String name) {
+        Avatar avatar = avatarRepository.findByNameIgnoreCase(name).orElseThrow(() -> new RuntimeException("Avatar with name " + name + " not found"));
+        avatarRepository.delete(avatar);
+        return ResponseEntity.ok().build();
+    }
+
+    public ResponseEntity<Avatar> toEnterMission (Avatar avatar, Task task) {
+        Avatar avatarFind = avatarRepository.findById(avatar.getId()).orElseThrow(() -> new RuntimeException("Avatar with id " + avatar.getId() + " not found"));
+
+        avatarFind.getTasks().add(task);
+
+        avatarRepository.save(avatarFind);
+
+        return ResponseEntity.ok(avatarFind);
+    }
+
+    public ResponseEntity<Avatar> toExitMission (Avatar avatar, Task task) {
+
+        Avatar avatarFind = avatarRepository.findById(avatar.getId()).orElseThrow(() -> new RuntimeException("Avatar with id " + avatar.getId() + " not found"));
+        Task taskFind = taskRepository.findById(task.getId()).orElseThrow(() -> new RuntimeException("task with id " + task.getId() + " not found"));
+
+        avatarFind.getTasks().remove(task);
+
+        avatarRepository.save(avatarFind);
+
+        return ResponseEntity.ok(avatarFind);
+
+    }
+
+
+
 
 }
