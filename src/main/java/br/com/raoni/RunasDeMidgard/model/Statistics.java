@@ -39,8 +39,8 @@ public class Statistics {
     @JsonIgnore
     private Statistics statistics;
 
-    public Statistics ( Long strength, Long dexterity, Long intelligence, Long vitality) {
-        this.health = 100L;
+    public Statistics ( Long health,Long strength, Long dexterity, Long intelligence, Long vitality) {
+        this.health = health;
         this.strength = strength;
         this.dexterity = dexterity;
         this.intelligence = intelligence;

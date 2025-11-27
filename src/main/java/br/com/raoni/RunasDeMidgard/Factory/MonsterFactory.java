@@ -31,7 +31,7 @@ public class MonsterFactory {
                 Enemy bandit = new Enemy("Bandit", "a common thief");
 
                 bandit.setStatistics(new Statistics(
-                        4L, 6L, 2L, 4L     // STR, DEX, INT, VIT
+                        35L, 4L, 6L, 2L, 4L      // HP, STR, DEX, INT, VIT
                 ));
 
                 bandit.setSkills(List.of(
@@ -42,13 +42,13 @@ public class MonsterFactory {
                 Loot lootBandit = new Loot(
                         "rusty knife",
                         3L,
-                        BigDecimal.valueOf(3.50),
+                        BigDecimal.valueOf(3.50), //preço
                         Rarity.COMMON,
                         "a simple rusty knife"
                 );
 
                 bandit.setLootDrops(List.of(
-                        new EnemyLoot(bandit, lootBandit, BigDecimal.valueOf(0.25))
+                        new EnemyLoot(bandit, lootBandit, BigDecimal.valueOf(0.25)) //chance em porcento de dropar ao matar esse inimigo
                 ));
 
                 return bandit;
@@ -58,7 +58,7 @@ public class MonsterFactory {
                 Enemy goblin = new Enemy("Goblin", "a green, short, and repulsive creature");
 
                 goblin.setStatistics(new Statistics(
-                        3L, 7L, 2L, 3L
+                        28L, 3L, 7L, 2L, 3L
                 ));
 
                 goblin.setSkills(List.of(
@@ -85,7 +85,7 @@ public class MonsterFactory {
                 Enemy skeleton = new Enemy("Skeleton", "an old animated skeleton");
 
                 skeleton.setStatistics(new Statistics(
-                        5L, 2L, 1L, 7L   // alta vitalidade (defesa)
+                        40L, 5L, 2L, 1L, 7L   // tanque físico
                 ));
 
                 skeleton.setSkills(List.of(
@@ -112,7 +112,7 @@ public class MonsterFactory {
                 Enemy wolf = new Enemy("Wolf", "a fast and aggressive wild wolf");
 
                 wolf.setStatistics(new Statistics(
-                        6L, 8L, 1L, 3L
+                        32L, 6L, 8L, 1L, 3L
                 ));
 
                 wolf.setSkills(List.of(
@@ -139,7 +139,7 @@ public class MonsterFactory {
                 Enemy orc = new Enemy("Orc", "a strong and brutal green warrior");
 
                 orc.setStatistics(new Statistics(
-                        9L, 3L, 1L, 8L
+                        55L, 9L, 3L, 1L, 8L
                 ));
 
                 orc.setSkills(List.of(
@@ -166,7 +166,7 @@ public class MonsterFactory {
                 Enemy slime = new Enemy("Slime", "a gelatinous creature with high endurance");
 
                 slime.setStatistics(new Statistics(
-                        2L, 1L, 2L, 10L   // muita vitalidade
+                        25L, 2L, 1L, 2L, 10L
                 ));
 
                 slime.setSkills(List.of(
@@ -193,7 +193,7 @@ public class MonsterFactory {
                 Enemy bat = new Enemy("Bat", "a small, fast and annoying flying creature");
 
                 bat.setStatistics(new Statistics(
-                        1L, 9L, 1L, 2L
+                        15L, 1L, 9L, 1L, 2L
                 ));
 
                 bat.setSkills(List.of(
@@ -219,7 +219,7 @@ public class MonsterFactory {
                 Enemy undead = new Enemy("Undead", "a cursed creature animated by dark magic");
 
                 undead.setStatistics(new Statistics(
-                        5L, 3L, 5L, 6L
+                        48L, 5L, 3L, 5L, 6L
                 ));
 
                 undead.setSkills(List.of(
@@ -242,47 +242,46 @@ public class MonsterFactory {
 
                 return undead;
 
+
             case GHOST:
                 Enemy ghost = new Enemy("Ghost of Chaos", "a spectral entity that haunts and terrifies its victims");
 
-                // mais rápido e inteligente, mas frágil fisicamente
                 ghost.setStatistics(new Statistics(
-                        3L, 10L, 8L, 2L   // STR, DEX, INT, VIT
+                        30L, 3L, 10L, 8L, 2L
                 ));
 
-                // Skills únicas do ghost
                 ghost.setSkills(List.of(
                         new Skill("haunting wail", "A terrifying scream that can paralyze enemies"),
-                        new Skill("ethereal touch", "Deals damage that ignores physical armor"),
+                        new Skill("ethereal touch", "Damage that ignores physical armor"),
                         new Skill("phase shift", "Becomes intangible, evading the next attack")
                 ));
 
-                // Loot do ghost
                 Loot lootGhost = new Loot(
                         "phantom essence",
                         1L,
                         BigDecimal.valueOf(15.0),
                         Rarity.EPIC,
-                        "A fragment of ghostly energy, valuable for magic crafting"
+                        "A fragment of ghostly energy"
                 );
 
                 ghost.setLootDrops(List.of(
-                        new EnemyLoot(ghost, lootGhost, BigDecimal.valueOf(0.30)) // 30% chance de drop
+                        new EnemyLoot(ghost, lootGhost, BigDecimal.valueOf(0.30))
                 ));
 
                 return ghost;
 
+
             case DRAGON:
-                Enemy dragon = new Enemy("Dragon Blood", "a massive dragon with scales as hard as steel");
+                Enemy dragon = new Enemy("Dragon Blood", "a massive dragon with steel-like scales");
 
                 dragon.setStatistics(new Statistics(
-                        15L, 5L, 10L, 20L  // STR, DEX, INT, VIT
+                        200L, 15L, 5L, 10L, 20L
                 ));
 
                 dragon.setSkills(List.of(
-                        new Skill("fire breath", "Unleashes a devastating stream of fire"),
-                        new Skill("tail sweep", "Sweeps the area with its massive tail"),
-                        new Skill("wing gust", "Knocks back enemies with powerful wing gusts")
+                        new Skill("fire breath", "Devastating stream of fire"),
+                        new Skill("tail sweep", "Massive AoE tail attack"),
+                        new Skill("wing gust", "Strong gust that knocks enemies back")
                 ));
 
                 Loot lootDragon = new Loot(
@@ -290,27 +289,27 @@ public class MonsterFactory {
                         5L,
                         BigDecimal.valueOf(100.0),
                         Rarity.LEGENDARY,
-                        "Scales of a dragon, extremely valuable for armor crafting"
+                        "Extremely valuable scale"
                 );
 
                 dragon.setLootDrops(List.of(
-                        new EnemyLoot(dragon, lootDragon, BigDecimal.valueOf(0.20)) // 20% chance
+                        new EnemyLoot(dragon, lootDragon, BigDecimal.valueOf(0.20))
                 ));
 
                 return dragon;
 
 
             case DEMONKING:
-                Enemy demonKing = new Enemy("Demon King", "the ruler of a demonic army, radiating dark energy");
+                Enemy demonKing = new Enemy("Demon King", "ruler of a demonic army");
 
                 demonKing.setStatistics(new Statistics(
-                        18L, 6L, 12L, 18L
+                        250L, 18L, 6L, 12L, 18L
                 ));
 
                 demonKing.setSkills(List.of(
-                        new Skill("dark strike", "A strike infused with dark magic"),
-                        new Skill("summon minions", "Calls lesser demons to fight alongside"),
-                        new Skill("hellfire aura", "Deals continuous fire damage to nearby enemies")
+                        new Skill("dark strike", "Strike infused with dark magic"),
+                        new Skill("summon minions", "Summons lesser demons"),
+                        new Skill("hellfire aura", "Burning aura surrounding the Demon King")
                 ));
 
                 Loot lootDemonKing = new Loot(
@@ -318,7 +317,7 @@ public class MonsterFactory {
                         1L,
                         BigDecimal.valueOf(200.0),
                         Rarity.LEGENDARY,
-                        "A powerful core of demonic energy, used in ultimate spells"
+                        "Powerful core of demonic energy"
                 );
 
                 demonKing.setLootDrops(List.of(
@@ -332,13 +331,13 @@ public class MonsterFactory {
                 Enemy vampireLord = new Enemy("Vampire Lord of Chaos", "an ancient vampire with immense power");
 
                 vampireLord.setStatistics(new Statistics(
-                        12L, 10L, 15L, 12L
+                        180L, 12L, 10L, 15L, 12L
                 ));
 
                 vampireLord.setSkills(List.of(
-                        new Skill("blood drain", "Drains life from enemies to heal itself"),
-                        new Skill("shadow step", "Teleports behind the target, striking unexpectedly"),
-                        new Skill("mesmerize", "Charms enemies, making them fight for it temporarily")
+                        new Skill("blood drain", "Drains HP from enemies"),
+                        new Skill("shadow step", "Teleports behind target"),
+                        new Skill("mesmerize", "Charms enemies temporarily")
                 ));
 
                 Loot lootVampireLord = new Loot(
@@ -346,7 +345,7 @@ public class MonsterFactory {
                         3L,
                         BigDecimal.valueOf(150.0),
                         Rarity.LEGENDARY,
-                        "A fang from the Vampire Lord, useful for crafting rare artifacts"
+                        "Used to craft rare artifacts"
                 );
 
                 vampireLord.setLootDrops(List.of(
@@ -354,6 +353,7 @@ public class MonsterFactory {
                 ));
 
                 return vampireLord;
+
 
             default:
                 throw new IllegalArgumentException("Unknown enemy type: " + type);

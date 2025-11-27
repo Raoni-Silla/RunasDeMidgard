@@ -1,15 +1,15 @@
 package br.com.raoni.RunasDeMidgard.Service;
 
-import br.com.raoni.RunasDeMidgard.Enum.EnemyType;
 import br.com.raoni.RunasDeMidgard.Factory.MonsterFactory;
 import br.com.raoni.RunasDeMidgard.Repository.EnemyRepository;
 import br.com.raoni.RunasDeMidgard.model.Enemy;
+import br.com.raoni.RunasDeMidgard.model.Statistics;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EnemyService {
@@ -19,6 +19,7 @@ public class EnemyService {
 
     @Autowired
     MonsterFactory monsterFactory;
+
 
     public ResponseEntity<Enemy> save(Enemy enemy) {
 
@@ -31,6 +32,7 @@ public class EnemyService {
         return ResponseEntity.ok(savedEnemy);
     }
 
+    @Transactional
     public ResponseEntity<Void> delete(Enemy enemy){
 
         if(enemy.getId() == null){
@@ -58,6 +60,34 @@ public class EnemyService {
         return ResponseEntity.ok(enemy);
     }
 
+    @Transactional
+    public ResponseEntity<List<Enemy>> searchForNameOrDescriptionEnemy (String name, String description) {
 
+        if (name == null && description == null) {
+            throw new RuntimeException("At least one of the fields must be filled in");
+        }
+
+        if (name == null) {
+            name = "";
+        }
+
+        if (description == null) {
+            description = "";
+        }
+
+        List <Enemy> enemyFinds = enemyRepo.findByNameContainingOrDescriptionContainingIgnoreCase(name, description);
+
+        if (enemyFinds.isEmpty()) {
+            throw new RuntimeException("No enemies found with given name or description");
+        }
+
+        return ResponseEntity.ok(enemyFinds);
+    }
+
+    //procura inimigos por tamanho da vida
+    public ResponseEntity<List<Enemy>> findEnemiesByHealthBetween(Long min, Long max) {
+        List<Enemy> enemies = enemyRepo.findByStatisticsHealthBetween(min, max);
+        return ResponseEntity.ok(enemies);
+    }
 
 }

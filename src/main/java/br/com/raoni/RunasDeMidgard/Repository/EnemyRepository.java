@@ -13,10 +13,10 @@ public interface EnemyRepository extends JpaRepository<Enemy,Long> {
 
     // 4. findByOr - Busca Global (Por nome OU descrição)
     // achar o monstro que tem 'Dragão' no nome ou na descrição
-    List<Enemy> findByNameContainingOrDescriptionContaining(String name, String description);
+    List<Enemy> findByNameContainingOrDescriptionContainingIgnoreCase(String name, String description);
 
-    // 7. findByBetween - Monstros de nível médio
-    List<Enemy> findByHpBetween(Long min, Long max);
+    List<Enemy> findByStatisticsHealthBetween(Long min, Long max);
+
 
     // 8. Deletar monstros com HP menor que 10
     // Métodos delete precisam de @Transactional no Service que chamar
