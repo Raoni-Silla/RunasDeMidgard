@@ -6,6 +6,7 @@ import br.com.raoni.RunasDeMidgard.model.Enemy;
 import br.com.raoni.RunasDeMidgard.model.Statistics;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -88,6 +89,14 @@ public class EnemyService {
     public ResponseEntity<List<Enemy>> findEnemiesByHealthBetween(Long min, Long max) {
         List<Enemy> enemies = enemyRepo.findByStatisticsHealthBetween(min, max);
         return ResponseEntity.ok(enemies);
+    }
+
+    @Transactional
+    public ResponseEntity<Void> deleteMonstersWhereHealthIsLessThan(Long health) {
+
+        enemyRepo.deleteByStatisticsHealthLessThan(health);
+
+        return ResponseEntity.ok().build();
     }
 
 }

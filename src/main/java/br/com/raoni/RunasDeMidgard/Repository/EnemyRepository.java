@@ -20,7 +20,12 @@ public interface EnemyRepository extends JpaRepository<Enemy,Long> {
 
     // 8. Deletar monstros com HP menor que 10
     // Métodos delete precisam de @Transactional no Service que chamar
-    void deleteByHpLessThan(Long hp);
+    void deleteByStatisticsHealthLessThan(Long hp);
+
+//    deleteBy
+//            Statistics         // objeto dentro do Enemy
+//                       Health         // campo dentro de Statistics
+//                              LessThan     // operador
 
     List<Enemy> findByType(EnemyType  type);
 }
