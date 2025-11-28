@@ -12,7 +12,7 @@ public class Inventory {
 
     @EmbeddedId
     @EqualsAndHashCode.Include
-    private InventoryPk id = new InventoryPk();
+    private InventoryPk idInventory = new InventoryPk();
 
     @ManyToOne
     @MapsId("avatarId")
@@ -24,11 +24,16 @@ public class Inventory {
     @JoinColumn(name = "loot_id")
     private Loot loot;
 
-    private int quantity;
+    private Long quantity;
 
-    public Inventory(Avatar avatar, Loot loot, int quantity) {
+    public Inventory(Avatar avatar, Loot loot, Long quantity) {
         this.avatar = avatar;
         this.loot = loot;
         this.quantity = quantity;
+    }
+
+    public Inventory(Avatar avatar, Loot loot) {
+        this.avatar = avatar;
+        this.loot = loot;
     }
 }
