@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,4 +59,30 @@ public class Enemy {
         this.name = name;
         this.description = description;
     }
+
+    public BigDecimal earnGold (){
+
+        BigDecimal gold = BigDecimal.valueOf(this.getType().getGold());
+
+        BigDecimal multiplier = switch (this.getType().getRank()){
+            case NORMAL:
+                yield BigDecimal.valueOf(1.0);
+            case ELITE:
+                yield BigDecimal.valueOf(1.5);
+            case LEGENDARY:
+                yield BigDecimal.valueOf(3.0);
+            case SPECIAL:
+                yield BigDecimal.valueOf(3.5);
+            case BOSS:
+                yield BigDecimal.valueOf(4.0);
+            case GLOBAL:
+                yield BigDecimal.valueOf(5.0);
+            default:
+                yield BigDecimal.ZERO;
+        };
+
+        return gold.multiply(multiplier);
+
+    }
+
 }

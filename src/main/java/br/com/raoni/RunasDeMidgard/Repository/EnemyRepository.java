@@ -26,6 +26,5 @@ public interface EnemyRepository extends JpaRepository<Enemy,Long> {
 //            Statistics         // objeto dentro do Enemy
 //                       Health         // campo dentro de Statistics
 //                              LessThan     // operador
-
     List<Enemy> findByType(EnemyType  type);
 }

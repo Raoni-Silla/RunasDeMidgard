@@ -3,10 +3,8 @@ package br.com.raoni.RunasDeMidgard.Service;
 import br.com.raoni.RunasDeMidgard.Factory.MonsterFactory;
 import br.com.raoni.RunasDeMidgard.Repository.EnemyRepository;
 import br.com.raoni.RunasDeMidgard.model.Enemy;
-import br.com.raoni.RunasDeMidgard.model.Statistics;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +53,7 @@ public class EnemyService {
         return ResponseEntity.ok(enemiesFound);
     }
 
-    public ResponseEntity<Enemy> randomEnemy() {
+    public ResponseEntity<Enemy> spawRandomEnemy() {
         Enemy enemy = monsterFactory.randomEnemyByType();
         enemyRepo.save(enemy);
         return ResponseEntity.ok(enemy);
@@ -98,5 +96,7 @@ public class EnemyService {
 
         return ResponseEntity.ok().build();
     }
+
+
 
 }

@@ -1,8 +1,10 @@
 package br.com.raoni.RunasDeMidgard.Service;
 
+import br.com.raoni.RunasDeMidgard.Enum.EnemyType;
 import br.com.raoni.RunasDeMidgard.Repository.AvatarRepository;
 import br.com.raoni.RunasDeMidgard.Repository.TaskRepository;
 import br.com.raoni.RunasDeMidgard.model.Avatar;
+import br.com.raoni.RunasDeMidgard.model.Enemy;
 import br.com.raoni.RunasDeMidgard.model.Task;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
