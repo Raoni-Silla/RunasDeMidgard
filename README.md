@@ -37,10 +37,6 @@ Este projeto vai além do MVC básico, implementando padrões de design para res
 * **Relacionamentos Complexos:** Uso extensivo de `@OneToMany`, `@ManyToOne` e `@ManyToMany` com entidades associativas gerenciadas manualmente para controle total da persistência.
 * **Performance:** Estratégia `FetchType.LAZY` adotada como padrão para evitar o problema de *N+1 queries* e economizar memória.
 
-### 2. Design Patterns Aplicados
-* **Factory Pattern:** Implementação de uma `MonsterFactory` para centralizar a lógica de criação de inimigos complexos (Bosses, Mobs) a partir de definições prévias (Enums), garantindo encapsulamento.
-* **Prototype Pattern (Conceitual):** O banco de dados armazena os "Moldes" (Blueprints) dos inimigos e itens. O sistema instancia cópias únicas para batalhas em tempo real, preservando os dados originais.
-
 ---
 
 ## 🧩 Estrutura do Banco de Dados (Entities)
