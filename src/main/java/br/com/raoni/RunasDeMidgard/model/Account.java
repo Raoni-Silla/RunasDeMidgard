@@ -23,7 +23,7 @@ public class Account {
     @NotBlank
     private String nickname;
 
-    @NotBlank
+    @NotBlank(message = "email")
     private String email;
 
     @NotBlank
@@ -52,5 +52,4 @@ public class Account {
         this.vip = false;
 
     }
-
 }

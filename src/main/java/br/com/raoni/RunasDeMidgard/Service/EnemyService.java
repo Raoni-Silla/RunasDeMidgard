@@ -21,47 +21,42 @@ public class EnemyService {
     MonsterFactory monsterFactory;
 
 
-    public ResponseEntity<Enemy> create(Enemy enemy) {
+    public Enemy create(Enemy enemy) {
 
         // Cria um inimigo completo com base no tipo
         Enemy builtEnemy = monsterFactory.create(enemy.getType());
 
         // Salva no banco
-        Enemy savedEnemy = enemyRepo.save(builtEnemy);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedEnemy);
+        return enemyRepo.save(builtEnemy);
     }
 
     @Transactional
-    public ResponseEntity<Void> delete(Enemy enemy){
+    public void delete(Enemy enemy){
 
         if(enemy.getId() == null){
             throw new RuntimeException("id não existente");
         }
 
         enemyRepo.deleteById(enemy.getId());
-        return ResponseEntity.ok().build();
 
     }
 
-    public ResponseEntity<List<Enemy>> findAll(){
-        List <Enemy> enemyList = enemyRepo.findAll();
-        return ResponseEntity.ok(enemyList);
+    public List<Enemy> findAll(){
+        return enemyRepo.findAll();
     }
 
-    public ResponseEntity<List<Enemy>> findByType(Enemy enemy){
-        List<Enemy> enemiesFound = enemyRepo.findByType(enemy.getType());
-        return ResponseEntity.ok(enemiesFound);
+    public List<Enemy> findByType(Enemy enemy){
+        return enemyRepo.findByType(enemy.getType());
     }
 
-    public ResponseEntity<Enemy> spawRandomEnemy() {
+    public Enemy spawRandomEnemy() {
         Enemy enemy = monsterFactory.randomEnemyByType();
         enemyRepo.save(enemy);
-        return ResponseEntity.ok(enemy);
+        return enemy;
     }
 
     @Transactional
-    public ResponseEntity<List<Enemy>> searchForNameOrDescriptionEnemy (String name, String description) {
+    public List<Enemy> searchForNameOrDescriptionEnemy (String name, String description) {
 
         if (name == null && description == null) {
             throw new RuntimeException("At least one of the fields must be filled in");
@@ -81,21 +76,17 @@ public class EnemyService {
             throw new RuntimeException("No enemies found with given name or description");
         }
 
-        return ResponseEntity.ok(enemyFinds);
+        return enemyFinds;
     }
 
     //procura inimigos por tamanho da vida
-    public ResponseEntity<List<Enemy>> findEnemiesByHealthBetween(Long min, Long max) {
-        List<Enemy> enemies = enemyRepo.findByStatisticsHealthBetween(min, max);
-        return ResponseEntity.ok(enemies);
+    public List<Enemy> findEnemiesByHealthBetween(Long min, Long max) {
+        return enemyRepo.findByStatisticsHealthBetween(min, max);
     }
 
     @Transactional
-    public ResponseEntity<Void> deleteMonstersWhereHealthIsLessThan(Long health) {
-
+    public void deleteMonstersWhereHealthIsLessThan(Long health) {
         enemyRepo.deleteByStatisticsHealthLessThan(health);
-
-        return ResponseEntity.ok().build();
     }
 
 

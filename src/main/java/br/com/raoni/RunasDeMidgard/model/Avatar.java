@@ -62,7 +62,7 @@ public class Avatar {
         this.account = account;
         this.gold = BigDecimal.ZERO;
         this.lastLogin = LocalDateTime.now();
-        this.level = 0L;
+        this.level = 1L;
 
     }
 

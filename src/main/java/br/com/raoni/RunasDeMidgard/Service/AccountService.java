@@ -15,7 +15,7 @@ public class AccountService {
     @Autowired
     AccountRepository accountRepository;
 
-    public ResponseEntity<Account> createAccount (Account account) {
+    public Account createAccount (Account account) {
 
         if (account == null) {
             throw new IllegalArgumentException("Account cannot be null");
@@ -36,24 +36,20 @@ public class AccountService {
         account.setVip(false);
         account.setActive(true);
 
-        Account accountCreated = accountRepository.save(account);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(accountCreated);
+        return accountRepository.save(account);
     }
 
-    public ResponseEntity<Account> readAccountByName(String name) {
+    public Account readAccountByName(String name) {
 
         String sanitized = name.strip();
 
-        Account found = accountRepository.findByNicknameIgnoreCase(sanitized)
+        return accountRepository.findByNicknameIgnoreCase(sanitized)
                 .orElseThrow(() ->
                         new IllegalArgumentException("Account with nickname " + sanitized + " does not exist")
                 );
-
-        return ResponseEntity.ok(found);
     }
 
-    public ResponseEntity<Account> updateAccountNickame(String nameActualy, String nameNew) {
+    public Account updateAccountNickame(String nameActualy, String nameNew) {
 
         Account account = accountRepository.findByNicknameIgnoreCase(nameActualy)
                 .orElseThrow(() ->
@@ -68,20 +64,13 @@ public class AccountService {
 
         account.setNickname(sanitizedNew);
 
-        Account updated = accountRepository.save(account);
-
-        return ResponseEntity.ok(updated);
+        return accountRepository.save(account);
     }
 
-    public ResponseEntity<Account> deleteAccountByName(String name) {
-
+    public void deleteAccountByName(String name) {
         Account find = accountRepository.findByNicknameIgnoreCase(name).orElseThrow(() ->
                 new IllegalArgumentException("Account with nickname " + name + " does not exist"));
-
         accountRepository.delete(find);
-
-        return ResponseEntity.ok().build();
-
     }
 
 

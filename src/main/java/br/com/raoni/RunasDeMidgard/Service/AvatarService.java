@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -26,7 +28,7 @@ public class AvatarService {
     private TaskRepository taskRepository;
 
     @Transactional//pra cancelar a transição caso de errado
-    public ResponseEntity<Avatar> saveAvatar(Avatar avatar) {
+    public Avatar createAvatar(Avatar avatar) {
 
         if (avatarRepository.existsById(avatar.getId())) {
             throw new RuntimeException("Avatar with id " + avatar.getId() + " already exists");
@@ -44,25 +46,27 @@ public class AvatarService {
             throw new RuntimeException("Avatar account cannot be empty");
         }
 
-        Avatar avatarSaved = avatarRepository.save(avatar);
+        avatar.setLevel(1L);
+        avatar.setXp(0L);
+        avatar.setGold(BigDecimal.valueOf(20));
+        avatar.setLastLogin(LocalDateTime.now());
 
         //retorna o avatar salvo com seu id
-        return ResponseEntity.status(HttpStatus.CREATED).body(avatarSaved);
+        return avatarRepository.save(avatar);
 
     }
 
-    public ResponseEntity<Avatar> findAvatarByName(String name) {
-       Avatar avatar = avatarRepository.findByNameIgnoreCase(name).orElseThrow(() -> new RuntimeException("Avatar with name " + name + " not found"));
-       return ResponseEntity.status(HttpStatus.OK).body(avatar);
+    public Avatar findAvatarByName(String name) {
+        return avatarRepository.findByNameIgnoreCase(name).orElseThrow(() -> new RuntimeException("Avatar with name " + name + " not found"));
     }
 
-    public ResponseEntity<Set<Avatar>> findAllAvatars() {
+    public Set<Avatar> findAllAvatars() {
         List<Avatar> avatars = avatarRepository.findAll();
         Set <Avatar> orderedListOfAvatars = avatars.stream() //cria uma stream de dados
                 .sorted(Comparator.comparing(Avatar::getLevel)) //ordena por nivel
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
-        return ResponseEntity.ok(orderedListOfAvatars); //retorna a lista de todos os avatares da pessoa ordenado por level
+        return orderedListOfAvatars; //retorna a lista de todos os avatares da pessoa ordenado por level
     }
 
 
@@ -73,7 +77,7 @@ public class AvatarService {
     }
 
 
-    public ResponseEntity<Avatar> updateLevel(Avatar avatar, Long xpEarned) {
+    public Avatar updateLevel(Avatar avatar, Long xpEarned) {
 
         avatar.setXp(avatar.getXp() + xpEarned);
 
@@ -90,27 +94,27 @@ public class AvatarService {
 
         avatarRepository.save(avatar);
 
-        return ResponseEntity.ok(avatar);
+        return avatar;
 
     }
 
-    public ResponseEntity<Void> deleteAvatar(String name) {
+    @Transactional
+    public void deleteAvatar(String name) {
         Avatar avatar = avatarRepository.findByNameIgnoreCase(name).orElseThrow(() -> new RuntimeException("Avatar with name " + name + " not found"));
         avatarRepository.delete(avatar);
-        return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<Avatar> toEnterMission (Avatar avatar, Task task) {
+    public Avatar toEnterMission (Avatar avatar, Task task) {
         Avatar avatarFind = avatarRepository.findById(avatar.getId()).orElseThrow(() -> new RuntimeException("Avatar with id " + avatar.getId() + " not found"));
 
         avatarFind.getTasks().add(task);
 
         avatarRepository.save(avatarFind);
 
-        return ResponseEntity.ok(avatarFind);
+        return avatarFind;
     }
 
-    public ResponseEntity<Avatar> toExitMission (Avatar avatar, Task task) {
+    public Avatar toExitMission (Avatar avatar, Task task) {
 
         Avatar avatarFind = avatarRepository.findById(avatar.getId()).orElseThrow(() -> new RuntimeException("Avatar with id " + avatar.getId() + " not found"));
         Task taskFind = taskRepository.findById(task.getId()).orElseThrow(() -> new RuntimeException("task with id " + task.getId() + " not found"));
@@ -119,7 +123,7 @@ public class AvatarService {
 
         avatarRepository.save(avatarFind);
 
-        return ResponseEntity.ok(avatarFind);
+        return avatarFind;
 
     }
 
