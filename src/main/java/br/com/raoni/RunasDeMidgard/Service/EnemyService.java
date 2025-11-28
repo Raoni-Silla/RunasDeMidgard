@@ -5,6 +5,7 @@ import br.com.raoni.RunasDeMidgard.Repository.EnemyRepository;
 import br.com.raoni.RunasDeMidgard.model.Enemy;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class EnemyService {
     MonsterFactory monsterFactory;
 
 
-    public ResponseEntity<Enemy> save(Enemy enemy) {
+    public ResponseEntity<Enemy> create(Enemy enemy) {
 
         // Cria um inimigo completo com base no tipo
         Enemy builtEnemy = monsterFactory.create(enemy.getType());
@@ -28,7 +29,7 @@ public class EnemyService {
         // Salva no banco
         Enemy savedEnemy = enemyRepo.save(builtEnemy);
 
-        return ResponseEntity.ok(savedEnemy);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedEnemy);
     }
 
     @Transactional

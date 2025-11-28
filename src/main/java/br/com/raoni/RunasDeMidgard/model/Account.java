@@ -27,13 +27,15 @@ public class Account {
     private String email;
 
     @NotBlank
-    @Size(min =  1, max = 100) //valida o tamanho da string
+    @Size(min =  5, max = 100) //valida o tamanho da string
     private String password;
 
     private LocalDate dateOfCreation;
 
+    @JsonIgnore
     private boolean vip;
 
+    @JsonIgnore //Pra usuario não conseguir se autocolocar como vip ou não ativado
     private boolean active;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)//remover um Avatar da lista, ele também será deletado do banco automaticamente.

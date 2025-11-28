@@ -1,13 +1,12 @@
 package br.com.raoni.RunasDeMidgard.Service;
 
-import br.com.raoni.RunasDeMidgard.Enum.EnemyType;
 import br.com.raoni.RunasDeMidgard.Repository.AvatarRepository;
 import br.com.raoni.RunasDeMidgard.Repository.TaskRepository;
 import br.com.raoni.RunasDeMidgard.model.Avatar;
-import br.com.raoni.RunasDeMidgard.model.Enemy;
 import br.com.raoni.RunasDeMidgard.model.Task;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -48,13 +47,13 @@ public class AvatarService {
         Avatar avatarSaved = avatarRepository.save(avatar);
 
         //retorna o avatar salvo com seu id
-        return ResponseEntity.ok(avatarSaved);
+        return ResponseEntity.status(HttpStatus.CREATED).body(avatarSaved);
 
     }
 
     public ResponseEntity<Avatar> findAvatarByName(String name) {
        Avatar avatar = avatarRepository.findByNameIgnoreCase(name).orElseThrow(() -> new RuntimeException("Avatar with name " + name + " not found"));
-       return ResponseEntity.ok(avatar);
+       return ResponseEntity.status(HttpStatus.OK).body(avatar);
     }
 
     public ResponseEntity<Set<Avatar>> findAllAvatars() {
